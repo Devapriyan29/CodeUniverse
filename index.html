@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Code Universe | Coding Competition 2026</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Poppins', sans-serif;
+      background: radial-gradient(circle at 10% 20%, #0a0718, #02010a);
+      color: #f0f3ff;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    /* glassmorphism + neon */
+    .glass-card {
+      background: rgba(10, 20, 40, 0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5), 0 0 12px rgba(0, 255, 255, 0.2);
+      transition: transform 0.25s ease, box-shadow 0.3s;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 40px -12px rgba(0, 255, 255, 0.35), 0 0 18px #00ffff80;
+      border-color: #a855f7;
+    }
+
+    .neon-text {
+      text-shadow: 0 0 6px #0ff, 0 0 12px #a855f7;
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, #0a58ca, #6f42c1);
+      border: none;
+      padding: 14px 34px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: 60px;
+      color: white;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 12px #00a6ff60;
+      font-family: 'Poppins', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-glow:hover {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #1e6fdf, #8b5cf6);
+      box-shadow: 0 0 22px #3b82f6, 0 0 8px gold;
+      letter-spacing: 1.5px;
+    }
+
+    .gold-highlight {
+      color: #fbbf24;
+      text-shadow: 0 0 5px #f59e0b;
+      font-weight: 700;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #c084fc, #38bdf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      margin-bottom: 2rem;
+      letter-spacing: -0.5px;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+    }
+
+    /* hero star field background */
+    .hero-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><radialGradient id="starGrad" cx="30%" cy="40%" r="70%"><stop offset="0%" stop-color="%2300aaff20"/><stop offset="100%" stop-color="%2300000020"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23starGrad)"/><circle cx="20%" cy="15%" r="2" fill="white" opacity="0.7"/><circle cx="45%" cy="30%" r="1.5" fill="white" opacity="0.5"/><circle cx="75%" cy="18%" r="2.2" fill="white" opacity="0.8"/><circle cx="88%" cy="70%" r="1.8" fill="white" opacity="0.6"/><circle cx="12%" cy="85%" r="1" fill="white"/><circle cx="60%" cy="90%" r="2" fill="white"/><circle cx="92%" cy="42%" r="1.2" fill="white"/><path d="M300 500 L320 480 L340 500 L320 520 Z" fill="%23ffcc3340" opacity="0.3"/><path d="M850 200 L870 185 L890 200 L870 215 Z" fill="%23ffaa3340"/></svg>');
+      background-repeat: repeat;
+      background-size: 400px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .grid-2cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .grid-3cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .icon-large {
+      font-size: 2.4rem;
+      margin-bottom: 0.75rem;
+      color: #38bdf8;
+    }
+
+    .highlight-badge {
+      background: rgba(255, 215, 0, 0.15);
+      border-left: 4px solid #fbbf24;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem;
+    }
+
+    footer {
+      border-top: 1px solid rgba(59,130,246,0.4);
+    }
+
+    .qr-placeholder {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      padding: 1rem;
+      text-align: center;
+      border: 1px dashed #4ade80;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 1rem 1.5rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .btn-glow {
+        padding: 10px 28px;
+        font-size: 1rem;
+      }
+    }
+
+    /* fade-up animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s forwards;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0c1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2dd4bf;
+      border-radius: 10px;
+    }
+
+    .team-avatar {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(145deg, #2e3a8a, #1e1a5e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.8rem;
+      color: #fbbf24;
+      border: 1px solid rgba(0,255,255,0.5);
+    }
+    .team-card {
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 20px rgba(74, 222, 255, 0.4);
+}
+
+.team-card h3 {
+  margin: 0.8rem 0 0.3rem;
+}
+
+.contact {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.role {
+  font-size: 0.9rem;
+  color: #4adeff;
+}
+
+/* ===== ADDITIONAL MEDIA QUERY (without altering existing code) ===== */
+@media (max-width: 480px) {
+  .grid-2cols {
+    gap: 1.2rem;
+  }
+  .glass-card {
+    border-radius: 1.5rem;
+  }
+  .hero-bg .container {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .hero-bg img[alt="Code Universe Logo"] {
+    width: 140px;
+    top: 12px;
+    right: 12px;
+  }
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  .btn-glow {
+    padding: 8px 22px;
+    font-size: 0.9rem;
+  }
+  .team-card {
+    padding: 1.2rem;
+  }
+  .team-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+  .highlight-badge {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  footer .highlight-badge {
+    font-size: 0.75rem;
+  }
+  .qr-placeolder {
+    width: 140px;
+    height: 140px;
+  }
+  .qr-placeolder div {
+    width: 110px !important;
+    height: 110px !important;
+  }
+  .qr-placeolder img {
+    width: 110px !important;
+  }
+}
+  </style>
+</head>
+<body>
+  <main>
+   
+    <!-- Hero Section -->
+    <!-- Hero Section -->
+<div class="hero-bg" style="position: relative;">
+
+  <!-- LOGO (Top Right Corner) -->
+  <img src="logo.jpeg" 
+       alt="Code Universe Logo"
+       style="
+         position: absolute;
+         top: 20px;
+         right: 20px;
+         width: 220px;
+         height: auto;
+         z-index: 10;
+       ">
+
+  <div class="container" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <div class="fade-up" style="text-align: center; max-width: 900px; margin: 0 auto;">
+      
+      <h1 style="font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 800; margin: 1rem 0 0.5rem; letter-spacing: -0.02em;">
+        <span style="background: linear-gradient(125deg, #ffffff, #4adeff, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent;">
+          CODING COMPETITION
+        </span>
+      </h1>
+
+      <p style="font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem;" class="neon-text">
+        Code Universe – Independent Student Coding Initiative
+      </p>
+
+      <p style="font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 1rem auto 2rem;">
+        Where Coding and Coders Begin — launch into a stellar challenge of logic and creativity.
+      </p>
+
+      <a href="#register-now" class="btn-glow" style="display: inline-flex; text-decoration: none;">
+        <i class="fas fa-rocket"></i> Register Now
+      </a>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; font-size: 0.9rem;">
+        <span><i class="fas fa-calendar-alt" style="color: #0ff;"></i> 28 Mar 2026</span>
+        <span><i class="fas fa-clock"></i> 5:00 PM IST</span>
+        <span><i class="fas fa-globe"></i> Online · HackerRank</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+  <!-- Event Details + Format -->
+  <div class="glass-card fade-up delay-1" style="padding: 2rem; margin-bottom: 3rem;">
+    <div class="grid-2cols" style="align-items: center;">
+      
+      <!-- Event Essentials -->
+      <div>
+        <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;">
+          <i class="fas fa-star-of-life" style="color: gold;"></i> Event Essentials
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+          <div><i class="fas fa-calendar-week" style="width: 32px; color: #3b82f6;"></i> <strong>Date:</strong> Sunday, 28 March 2026</div>
+          <div><i class="fas fa-hourglass-half" style="color: #f97316;"></i> <strong>Time:</strong> 5:00 PM (IST)</div>
+          <div><i class="fas fa-laptop-code" style="color: #22d3ee;"></i> <strong>Mode:</strong> Online (Anywhere)</div>
+          <div><i class="fab fa-hackerrank" style="color: #2ec866;"></i> <strong>Platform:</strong> HackerRank</div>
+        </div>
+      </div>
+
+      <!-- Competition Format -->
+      <div>
+        <h3 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem;">
+          <i class="fas fa-puzzle-piece"></i> Competition Format
+        </h3>
+
+        <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 0.8rem;">
+          <li style="background: #0f172a80; border-radius: 40px; padding: 0.4rem 1rem;">
+            <i class="fas fa-check-circle" style="color: #0ff;"></i> 1 Round
+          </li>
+
+          <li style="background: #0f172a80; border-radius: 40px; padding: 0.4rem 1rem;">
+            <i class="fas fa-terminal"></i> 4 Coding Problems
+          </li>
+
+          <li style="background: #0f172a80; border-radius: 40px; padding: 0.4rem 1rem;">
+            <i class="fas fa-stopwatch"></i> 90 Minutes
+          </li>
+        </ul>
+
+        <!-- Total Challenge -->
+        <div class="highlight-badge" style="margin-top: 1.5rem;">
+          <i class="fas fa-trophy"></i> <strong>Total Challenge:</strong> 4 problems
+        </div>
+
+        <!-- Participation Certificate (NEW) -->
+        <div class="highlight-badge" style="margin-top: 1rem; box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);">
+          <i class="fas fa-certificate" style="color: #facc15;"></i> 
+          <strong>Participation Certificate:</strong> Issued to participants who attempt the contest
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+      <!-- Highlights & Prizes -->
+      <div class="fade-up delay-2">
+        <div style="text-align: center;">
+          <span class="section-title"><i class="fas fa-gem"></i> Highlights & Prizes</span>
+        </div>
+        <div class="grid-3cols" style="margin-bottom: 3rem;">
+          <div class="glass-card" style="padding: 1.8rem; text-align: center;">
+  
+            <h3 style="font-size: 2rem; font-weight: 800;">₹50</h3>
+            <p style="font-weight: 500;">Minimal Entry · Max Thrill</p>
+            <span style="background: #00000050; border-radius: 30px; padding: 0.2rem 1rem; font-size: 0.8rem;">Access to grand challenge</span>
+          </div>
+          <div class="glass-card" style="padding: 1.8rem; text-align: center;">
+            <i class="fas fa-trophy icon-large" style="color: #ffcc44;"></i>
+            <h3 style="font-size: 2rem; font-weight: 800;">Cash Prizes</h3>
+            <p>Exciting rewards for top performers</p>
+            <div class="gold-highlight">🏆 Top 3 winners cash pool</div>
+          </div>
+          <div class="glass-card" style="padding: 1.8rem; text-align: center;">
+            <i class="fas fa-chart-line icon-large" style="color: #3b82f6;"></i>
+            <h3>Logic presentation</h3>
+          
+        <span>Top 3 present solutions in exclusive Google Meet session</span>
+          </div>
+        </div>
+        <div class="glass-card" style="padding: 1rem 2rem; margin-bottom: 2.5rem; text-align: center; background: linear-gradient(145deg, #0a0e1e80, #03061780);">
+          <i class="fas fa-microphone-alt" style="color: gold;"></i> <strong>Special Perk:</strong> Winners get to showcase their thought process in front of mentors & participants — <span class="gold-highlight">Google Meet Spotlight</span>
+        </div>
+      </div>
+
+      <!-- Registration Section with QR and Google Form -->
+      <div id="register-now" class="fade-up delay-3" style="margin-bottom: 3rem;">
+        <div style="text-align: center;">
+          <span class="section-title"><i class="fas fa-user-plus"></i> Secure Your Orbit</span>
+        </div>
+        <div class="grid-2cols" style="gap: 2rem;padding-top: 30px;">
+          <div class="glass-card" style="padding: 2rem; text-align: center;">
+            <i class="fas fa-edit" style="font-size: 2rem; color: #60a5fa;"></i>
+            <h3 style="margin: 1rem 0;">Register via Google Form</h3>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe9cTCIgnzx07W_aCSZqgbo7shGwJj4tAxjIwSPqalGIMsO1Q/viewform" target="_blank" class="btn-glow" style="display: inline-flex; text-decoration: none; margin-top: 0.5rem;">
+              <i class="fab fa-google"></i> Register Now →
+            </a>
+            
+          </div>
+         
+          <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <i class="fas fa-qrcode" style="font-size: 2.4rem; margin-bottom: 1rem;"></i>
+            <h3>Scan to Register</h3>
+            <div class="qr-placeolder" style="width: 180px; height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: white; border-radius: 24px; margin: 1rem auto; cursor: pointer;" id="qrDynamicBox">
+              <div style="background: #111; width: 140px; height: 140px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; border-radius: 20px; position: relative;">
+                <img src="QR code.jpeg" style="width: 150px;">
+
+              </div>
+            </div>
+            <p class="gold-highlight" style="margin-top: 0.5rem;">QR leads to registration form</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEET THE TEAM section (complete coordinator list) -->
+      <div class="fade-up delay-3">
+  <div style="text-align: center;">
+    <span class="section-title">
+      <i class="fas fa-users"></i> Meet the Team
+    </span>
+  </div>
+
+  <!-- GRID -->
+  <div style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  ">
+
+    <!-- Sharmithasri -->
+    <a href="https://www.linkedin.com/in/sharmithasriit/" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-brain"></i></div>
+        <h3>Sharmithasri T</h3>
+        <p class="contact">8015228986</p>
+        <p class="role">Problem Solving & Execution Lead</p>
+      </div>
+    </a>
+
+    <!-- Devapriyan -->
+    <a href="https://www.linkedin.com/in/devapriyanv/" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-chart-line"></i></div>
+        <h3>Devapriyan V</h3>
+        <p class="contact">6383055958</p>
+        <p class="role">Strategy Lead</p>
+      </div>
+    </a>
+
+    <!-- Bhagavathi -->
+    <a href="https://www.linkedin.com/in/bhagavathi-raja-s-014aa0296/" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-microchip"></i></div>
+        <h3>Bhagavathi Raja S</h3>
+        <p class="contact">9443278330</p>
+        <p class="role">Technical Systems Lead</p>
+      </div>
+    </a>
+
+    <!-- Ariram -->
+    <a href="https://www.linkedin.com/in/arirams" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-microchip"></i></div>
+        <h3>Ariram S</h3>
+        <p class="contact">9342625424</p>
+        <p class="role">Technical Systems Lead</p>
+      </div>
+    </a>
+
+    <!-- Dharanish -->
+    
+    <a href="https://www.linkedin.com/in/dharanishpr" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-clipboard-list"></i></div>
+        <h3>Dharanish PR</h3>
+        <p class="contact">9865396807</p>
+        <p class="role">Registration Lead</p>
+      </div>
+    </a>
+
+    <!-- Dhineshwaran -->
+    <a href="https://www.linkedin.com/in/dhineshwaran-p-050bb3298" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-chalkboard-user"></i></div>
+        <h3>Dhineshwaran P</h3>
+        <p class="contact">9344519865</p>
+        <p class="role">Marketing Lead</p>
+      </div>
+    </a>
+
+    <!-- Bala -->
+    <a href="https://www.linkedin.com/in/bala-sn-8b4711298" target="_blank" style="text-decoration:none; color:inherit;">
+      <div class="glass-card team-card">
+        <div class="team-avatar"><i class="fas fa-chalkboard-user"></i></div>
+        <h3>Bala SN</h3>
+        <p class="contact">7010975274</p>
+        <p class="role">Marketing Lead</p>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+      <!-- Footer with deadline & limited slots -->
+      <footer class="fade-up delay-4" style="margin: 1rem 0 1rem 0; padding: 2rem 0 1rem 0; text-align: center;">
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; align-items: baseline;">
+          <div class="highlight-badge" style="background: #1a1f2e;">
+            <i class="fas fa-calendar-times"></i> Registration closes on <strong>Saturday – 27.03.2026</strong>
+          </div>
+          <div style="background: #2d374850; border-radius: 40px; padding: 0.3rem 1.4rem;">
+            <i class="fas fa-exclamation-triangle" style="color: #facc15;"></i> <span class="gold-highlight">Limited slots available</span> — Grab your spot!
+          </div>
+        </div>
+        <div style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.7; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <span><i class="far fa-copyright"></i> Code Universe Initiative 2026</span>
+          <span><i class="fas fa-code"></i> Where Coding and Coders Begin</span>
+          <span><i class="fab fa-hackerrank"></i> Powered by student passion</span>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    (function addDynamicStars() {
+      const starContainer = document.createElement('div');
+      starContainer.style.position = 'fixed';
+      starContainer.style.top = '0';
+      starContainer.style.left = '0';
+      starContainer.style.width = '100%';
+      starContainer.style.height = '100%';
+      starContainer.style.pointerEvents = 'none';
+      starContainer.style.zIndex = '0';
+      starContainer.style.overflow = 'hidden';
+      document.body.insertBefore(starContainer, document.body.firstChild);
+      
+      for (let i = 0; i < 70; i++) {
+        const star = document.createElement('div');
+        const size = Math.random() * 2 + 1;
+        star.style.position = 'absolute';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.background = `rgba(255, 255, 255, ${Math.random() * 0.6 + 0.3})`;
+        star.style.borderRadius = '50%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.opacity = Math.random() * 0.7 + 0.2;
+        const duration = Math.random() * 30 + 15;
+        star.style.animation = `floatStar ${duration}s infinite ease-in-out`;
+        starContainer.appendChild(star);
+      }
+      if (!document.querySelector('#starAnimStyle')) {
+        const style = document.createElement('style');
+        style.id = 'starAnimStyle';
+        style.textContent = `
+          @keyframes floatStar {
+            0% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+            50% { transform: translateY(-15px) translateX(8px); opacity: 0.8; }
+            100% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    })();
+
+    // smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === "#" || targetId === "") return;
+        const targetElem = document.querySelector(targetId);
+        if (targetElem) {
+          e.preventDefault();
+          targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // QR placeholder interaction and dynamic redirection (demo alert + open form link)
+    const qrBox = document.querySelector('.qr-placeholder');
+    if (qrBox) {
+      qrBox.addEventListener('mouseenter', () => {
+        qrBox.style.transform = 'scale(1.02)';
+        qrBox.style.transition = '0.2s';
+        qrBox.style.boxShadow = '0 0 15px #4ade80';
+      });
+      qrBox.addEventListener('mouseleave', () => {
+        qrBox.style.transform = 'scale(1)';
+        qrBox.style.boxShadow = 'none';
+      });
+      qrBox.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Simulate QR scan -> direct to registration google form (opens in new tab)
+        window.open('https://forms.gle/placeholder-link-codeuniverse', '_blank');
+      });
+    }
+
+    // also make the register google form button more explicit 
+    const regBtn = document.querySelector('a[href="https://forms.gle/placeholder-link-codeuniverse"]');
+    if(regBtn) {
+      regBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open('https://forms.gle/placeholder-link-codeuniverse', '_blank');
+      });
+    }
+
+    // Small console greeting
+    console.log("🚀 Code Universe — Where Coding and Coders Begin. Register now!");
+  </script>
+</body>
+</html>
